@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cosa vorrà mai Enrico papi?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background-color: #ffcc00;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #e6b800;
+        }
+        #video-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            z-index: 9999;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="main-content">
+    <h1>cosa vorrà mai Enrico papi?</h1>
+    <button id="start-btn">ATTIVA ENRICO PAPI ALL'INFINITO 🚀</button>
+</div>
+
+<div id="video-container">
+    <video id="papi-video" loop playsinline>
+        <source src="papi" type="video/mp4">
+        <source src="papi.mp4" type="video/mp4">
+        Il tuo browser non supporta il tag video.
+    </video>
+</div>
+
+<script>
+    const startBtn = document.getElementById('start-btn');
+    const videoContainer = document.getElementById('video-container');
+    const papiVideo = document.getElementById('papi-video');
+    const mainContent = document.getElementById('main-content');
+
+    startBtn.addEventListener('click', () => {
+        mainContent.style.display = 'none';
+        videoContainer.style.display = 'block';
+        
+        papiVideo.play().catch(error => {
+            console.log("Riproduzione bloccata, provo con il muto per i blocchi mobile:", error);
+            papiVideo.muted = true;
+            papiVideo.play();
+        });
+
+        if (videoContainer.requestFullscreen) {
+            videoContainer.requestFullscreen().catch(err => console.log(err));
+        } else if (videoContainer.webkitRequestFullscreen) {
+            videoContainer.webkitRequestFullscreen().catch(err => console.log(err));
+        } else if (papiVideo.webkitEnterFullscreen) {
+            papiVideo.webkitEnterFullscreen();
+        }
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement) {
+            papiVideo.pause();
+            videoContainer.style.display = 'none';
+            mainContent.style.display = 'block';
+        }
+    });
+
+    document.addEventListener('webkitfullscreenchange', () => {
+        if (!document.webkitwebkitFullscreenElement) {
+            papiVideo.pause();
+            videoContainer.style.display = 'none';
+            mainContent.style.display = 'block';
+        }
+    });
+</script>
+
+</body>
+</html>
